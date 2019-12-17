@@ -76,6 +76,7 @@
 					<li><a href="category?2">iPhone</a></li>
 					<li><a href="category?4">Accessories</a></li>
 				</ol></li>
+			<li><a href="contact.jsp">Contact</a></li>
 		</ol>
 	</div>
 </body>
