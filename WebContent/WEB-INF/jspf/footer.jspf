@@ -1,0 +1,46 @@
+<%@page contentType="text/html; charset=UTF8" pageEncoding="UTF8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="footer">
+			<!-- First column -->
+			<div class="one-fourth">
+				<h3>Customers' Services</h3>
+				<ul class="footer_links">
+					<li><a href="contact.jsp">Contact</a></li>
+				</ul>
+			</div>
+			<!-- Second column -->
+			<div class="one-fourth">
+				<h3>Administrator</h3>
+				<ul class="footer_links">
+					<%
+						String nameisexsit = (String) request.getSession().getAttribute("admin");
+						if (nameisexsit == null) { %>
+							<li><a href="login.jsp">Login</a></li>
+					<% 	} else { %>
+						<li><a href="index.jsp">Admin</a></li>
+						<li><a href="logout">Logout</a></li>
+						<li><a href="addProduct.jsp">Add New Product</a>
+					<% } %>
+				</ul>
+			</div>
+			<!-- Third column -->
+			<div class="one-fourth">
+				<h3>Information</h3>
+				For online shopping Apple's products.
+				<div id="social_icons"> Theme by <a href="http://csstemplateheaven.com">CssTemplateHeaven</a><br>
+					Photo <a href="http://dieterschneider.net">Dieter Scheider</a></div>
+			</div>
+			<!-- Fourth column -->
+			<div class="one-fourth last">
+				<h3>Socialize</h3>
+				<img src="img/icon_fb.png" alt=""><img src="img/icon_twitter.png" alt=""><img src="img/icon_in.png" alt="">
+			</div>
+			<div style="clear:both"></div>
+		</div>
+	</body>
+</html>
