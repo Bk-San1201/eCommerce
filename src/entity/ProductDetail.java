@@ -13,18 +13,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+
 /**
  * The persistent class for the product_detail database table.
  * 
  */
 @Entity
-@Table(name = "product_detail")
-@NamedQuery(name = "ProductDetail.findAll", query = "SELECT p FROM ProductDetail p")
+@Table(name="product_detail")
+@NamedQuery(name="ProductDetail.findAll", query="SELECT p FROM ProductDetail p")
 public class ProductDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "product_id")
+	@Column(name="product_id")
 	private int productId;
 
 	private String accessories;
@@ -43,27 +44,14 @@ public class ProductDetail implements Serializable {
 
 	private String information;
 
-	// bi-directional one-to-one association to Product
-	@OneToOne(cascade = { CascadeType.ALL })
+	private int quantity;
+
+	//bi-directional one-to-one association to Product
+	@OneToOne(cascade={CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private Product product;
 
 	public ProductDetail() {
-	}
-
-	public List<String> getAllImages() {
-		List<String> images = new ArrayList<String>();
-		if (image1 != null)
-			images.add(image1);
-		if (image2 != null)
-			images.add(image2);
-		if (image3 != null)
-			images.add(image3);
-		if (image4 != null)
-			images.add(image4);
-		if (image5 != null)
-			images.add(image5);
-		return images;
 	}
 
 	public int getProductId() {
@@ -138,12 +126,35 @@ public class ProductDetail implements Serializable {
 		this.information = information;
 	}
 
+	public int getQuantity() {
+		return this.quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	public Product getProduct() {
 		return this.product;
 	}
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	public List<String> getAllImages() {
+		List<String> images = new ArrayList<String>();
+		if (image1 != null)
+			images.add(image1);
+		if (image2 != null)
+			images.add(image2);
+		if (image3 != null)
+			images.add(image3);
+		if (image4 != null)
+			images.add(image4);
+		if (image5 != null)
+			images.add(image5);
+		return images;
 	}
 
 }

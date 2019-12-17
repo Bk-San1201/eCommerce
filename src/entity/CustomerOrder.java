@@ -30,6 +30,8 @@ public class CustomerOrder implements Serializable {
 	@Column(name="date_created")
 	private Date dateCreated;
 
+	private boolean status;
+
 	//bi-directional many-to-one association to Customer
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="customer_id")
@@ -72,6 +74,14 @@ public class CustomerOrder implements Serializable {
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+
+	public boolean getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public Customer getCustomer() {

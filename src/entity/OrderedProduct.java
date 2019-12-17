@@ -40,7 +40,7 @@ public class OrderedProduct implements Serializable {
 		this.id = orderedProductPK;
 		
 	}
-
+	
 	public OrderedProductPK getId() {
 		return this.id;
 	}
