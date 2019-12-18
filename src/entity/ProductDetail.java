@@ -141,7 +141,6 @@ public class ProductDetail implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
 	public List<String> getAllImages() {
 		List<String> images = new ArrayList<String>();
 		if (image1 != null)

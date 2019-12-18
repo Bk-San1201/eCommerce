@@ -35,7 +35,7 @@
 						<div class="wrap-input100 validate-input m-b-26"
 							data-validate="Username is required">
 							<span class="label-input100">Username</span> <input
-								class="input100" type="text" name="username" value="admin"
+								class="input100" type="text" name="username" value=""
 								placeholder="Enter username"> <span
 								class="focus-input100"></span>
 						</div>
@@ -47,7 +47,7 @@
 								class="focus-input100"></span>
 						</div>
 						<%
-							String name = (String) request.getSession().getAttribute("admin");
+							String name = (String) request.getSession().getAttribute("login");
 							String check = (String) request.getSession().getAttribute("check");
 							if (name == null && check != null) {
 						%>
@@ -62,7 +62,7 @@
 									for="ckb1"> Remember me </label>
 							</div>
 							<div>
-								<a href="#" class="txt1"> Forgot Password? </a>
+								<a href="register.jsp" class="txt1"> Register </a>
 							</div>
 						</div>
 						<div class="container-login100-form-btn">

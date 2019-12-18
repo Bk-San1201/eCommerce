@@ -1,7 +1,7 @@
 <%@page import="entity.ProductDetail"%>
 <%@page import="entity.Product"%>
 <%
-	session.setAttribute("view", "/product ");
+	session.setAttribute("view", "/product");
 	Product selectedProduct = (Product) session.getAttribute("selectedProduct");
 	ProductDetail selectedProductDetail = (ProductDetail) session.getAttribute("selectedProductDetail");
 %>
@@ -22,7 +22,7 @@
 					<%
 						for (String img : selectedProductDetail.getAllImages()) {
 					%>
-					<li><img src="images/<%=img%>" alt="" title="" /></li>
+					<li><img src="img/demo/<%=img%>" alt="" title="" /></li>
 					<%
 						}
 					%>
@@ -31,7 +31,7 @@
 					<%
 						for (String img : selectedProductDetail.getAllImages()) {
 					%>
-					<li><img src="images/<%=img%>" alt="" title="" /></li>
+					<li><img src="img/demo/<%=img%>" alt="" title="" /></li>
 					<%
 						}
 					%>

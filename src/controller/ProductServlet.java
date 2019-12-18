@@ -163,9 +163,15 @@ public class ProductServlet extends HttpServlet {
 
 			// get infor from request
 			String imageProduct = (String) request.getParameter("imageProduct");
+			if (imageProduct == null) {
+				imageProduct = new String(String.valueOf(selectedProduct.getImage()));
+			}
 			String[] imageProductDetail = new String[5];
 			for (int i = 0; i < 5; i++) {
-				imageProductDetail[i] = (String) request.getParameter("imageProductDetail_" + (i - 1));
+				imageProductDetail[i] = (String) request.getParameter("imageProductDetail_" + (i + 1));
+				if (imageProductDetail[i] == null) {
+					imageProductDetail[i] = new String(String.valueOf(selectedProductDetail.getAllImages().get(i)));
+				}
 			}
 			int productId;
 			String name = (String) request.getParameter("name");
@@ -208,9 +214,9 @@ public class ProductServlet extends HttpServlet {
 			pd.setAccessories(accessories);
 			pd.setGuaranty(guaranty);
 			pd.setInformation(description_detail);
-			productDetailSB.remove(productDetailSB.find(productId));
-			
-			productSB.remove(productSB.find(productId));
+			pd.setInformation(techniqueDetail);
+			productDetailSB.remove(selectedProductDetail);
+			productSB.remove(selectedProduct);
 			productSB.create(p);
 			productDetailSB.create(pd);
 			session.setAttribute("selectedProduct", p);

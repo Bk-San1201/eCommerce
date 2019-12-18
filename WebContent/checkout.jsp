@@ -25,6 +25,13 @@
 		});
 	});
 </script>
+<%@page import="entity.Customer"%>
+<%
+	session.setAttribute("view", "/checkout");
+	Customer customer = (Customer) session.getAttribute("customer");
+	
+%>
+
 <div id="container">
 	<div class="one-half">
 		<div class="heading_bg">
@@ -38,7 +45,10 @@
 		</c:if>
 		<form id="checkoutForm" action="<c:url value='purchase' />" method="post">
 			<fieldset>
-				<label>Name<span class="required">*</span></label> <input type="text" name="name" id="name" value="${param.name}" />
+				<label>Username<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getUsername() %>" />
+			</fieldset>
+			<fieldset>
+				<label>Name<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getName() %>" />
 			</fieldset>
 			<fieldset>
 				<label>Email<span class="required">*</span></label> <input type="text" name="email" id="email" value="${param.email}" />

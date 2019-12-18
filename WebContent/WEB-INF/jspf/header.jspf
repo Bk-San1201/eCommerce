@@ -28,18 +28,6 @@
 	<div id="container" style="height:5.6em">
 		<div style="width:10%; /* border:1px solid red; */ float:left; position:relative;">
 		<!-- <div> -->
-			<c:if
-				test="${!empty cart && cart.numberOfItems != 0 && !fn:contains(pageContext.request.servletPath,'/checkout') &&
-				requestScope['javax.servlet.forward.servlet_path']
-				ne '/checkout' &&!fn:contains(pageContext.request.servletPath,'/viewCart') &&
-				requestScope['javax.servlet.forward.servlet_path']
-				ne '/viewCart' &&
-				validationErrorFlag ne true &&
-				orderFailureFlag ne true}">
-				<a href="<c:url value='checkout'/>"> <fmt:message
-						key="proceedCheckout" />
-				</a>
-			</c:if>
 			<img src="img/cart.png" alt=""> <a
 				href="<c:url value='viewCart'/>"> <c:choose>
 					<c:when test="${cart.numberOfItems == null}">

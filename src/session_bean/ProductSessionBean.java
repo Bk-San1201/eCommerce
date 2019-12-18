@@ -28,15 +28,19 @@ public class ProductSessionBean extends AbstractSessionBean<Product> {
 
 	@Override
 	public void remove(Product p) {
-		p = getEntityManager().merge(p);
-		super.remove(p);
+		p = em.merge(p);
+		Category c = p.getCategory();
 //		Category c = p.getCategory();
 //		c.removeProduct(p);
+		super.remove(p);
+		categorySB.getEntityManager().refresh(c);
+		
 	}
 	@Override 
 	public void create(Product p) {
 		super.create(p);
 		Category c = categorySB.find(p.getCategory().getCategoryId());
-		c.addProduct(p);
+//		c.addProduct(p);
+		categorySB.getEntityManager().refresh(c);
 	}
 }

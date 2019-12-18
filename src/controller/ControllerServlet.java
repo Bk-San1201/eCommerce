@@ -40,7 +40,7 @@ import valid.Validator;
  *
  */
 @WebServlet(name = "ControllerServlet", loadOnStartup = 1, urlPatterns = { "/ControllerServlet", "/category",
-		"/addToCart", "/viewCart", "/updateCart", "/product", "/logout", "/login", "/checkout", "/purchase" })
+		"/addToCart", "/viewCart", "/updateCart", "/product", "/checkout", "/purchase" })
 public class ControllerServlet extends HttpServlet {
 
 	@EJB
@@ -72,6 +72,7 @@ public class ControllerServlet extends HttpServlet {
 		String userPath = request.getRequestURI().substring(request.getContextPath().length());
 		if (userPath.equals("/category")) {
 			String categoryId = request.getQueryString();
+	
 			if (categoryId != null) {
 				Category selectedCategory;
 				List<Product> categoryProducts;
@@ -90,12 +91,6 @@ public class ControllerServlet extends HttpServlet {
 				session.setAttribute("selectedProduct", selectedProduct);
 				session.setAttribute("selectedProductDetail", selectedProductDetail);
 			}
-		} else if (userPath.equals("/logout")) {
-			HttpSession session1 = request.getSession();
-			session1.removeAttribute("admin");
-			session1.removeAttribute("check");
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-			return;
 		} else if (userPath.equals("/viewCart")) {
 			String clear = request.getParameter("clear");
 			if ((clear != null) && clear.equals("true")) {
@@ -119,6 +114,11 @@ public class ControllerServlet extends HttpServlet {
 			String userView = (String) session.getAttribute("view");
 			userPath = String.valueOf(userView);
 
+		} else if (userPath.equals("/checkout")) {
+			String login = (String) session.getAttribute("login");
+			if (login == null) {
+				userPath = "login";
+			}
 		}
 
 		String url = userPath.trim() + ".jsp";
@@ -138,24 +138,7 @@ public class ControllerServlet extends HttpServlet {
 		Validator validator = new Validator();
 		String userPath = request.getRequestURI().substring(request.getContextPath().length());
 
-		if (userPath.equals("/login")) {
-			String name = request.getParameter("username");
-			String password = request.getParameter("pass");
-			String check = new String("Ok");
-			if (name.equals("admin") && password.equals("admin")) {
-//				HttpSession session = request.getSession();
-				session.setAttribute("admin", name);
-				userPath = "index";
-
-			} else {
-//				HttpSession session = request.getSession();
-				session.setAttribute("check", check);
-				userPath = "login";
-
-			}
-
-		}
-
+	
 		if (userPath.equals("/updateCart")) {
 			int productId = Integer.parseInt(request.getParameter("productId"));
 			cart = (ShoppingCart) session.getAttribute("cart");
