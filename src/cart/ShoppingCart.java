@@ -28,6 +28,7 @@ public class ShoppingCart {
 			ShoppingCartItem scItem = new ShoppingCartItem(product);
 			items.add(scItem);
 		}
+		this.calculateTotal("5.0");
 	}
 
 	public synchronized void update(Product product, String quantity) {
@@ -53,6 +54,7 @@ public class ShoppingCart {
 				items.remove(item);
 			}
 		}
+		this.calculateTotal("5.0");
 	}
 
 	public synchronized List<ShoppingCartItem> getItems() {

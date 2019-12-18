@@ -1,9 +1,12 @@
 package session_bean;
 
-import entity.Customer;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import entity.Customer;
 
 /**
  *
@@ -20,5 +23,9 @@ public class CustomerSessionBean extends AbstractSessionBean<Customer> {
 
 	public CustomerSessionBean() {
 		super(Customer.class);
+	}
+	public Customer findByUsername(String username) {
+		return (Customer) em.createNamedQuery("Customer.findByUsername").setParameter("username",
+                username).getSingleResult();
 	}
 }

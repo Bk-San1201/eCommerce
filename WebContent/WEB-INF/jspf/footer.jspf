@@ -15,17 +15,25 @@
 			</div>
 			<!-- Second column -->
 			<div class="one-fourth">
-				<h3>Administrator</h3>
-				<ul class="footer_links">
-					<%
-						String nameisexsit = (String) request.getSession().getAttribute("admin");
-						if (nameisexsit == null) { %>
-							<li><a href="login.jsp">Login</a></li>
-					<% 	} else { %>
+				<%
+					String loginisexist = (String) request.getSession().getAttribute("login");
+					if (loginisexist == null) { %>
+						<h3>Welcome to out eMarket</h3>
+						<ul class="footer_links">
+						<li><a href="login.jsp">Login</a></li>
+				<% 	} else if (loginisexist.contentEquals("admin")) { %>
+						<h3>Administrator</h3>
+						<ul class="footer_links">
 						<li><a href="index.jsp">Admin</a></li>
 						<li><a href="logout">Logout</a></li>
 						<li><a href="addProduct.jsp">Add New Product</a>
-					<% } %>
+				<%	} else { %>
+						<h3>Customer</h3>
+						<ul class="footer_links">
+						<li><a href="profile.jsp">Profile</a></li>
+						<li><a href="index.jsp">Home</a></li>
+						<li><a href="logout">Logout</a>
+				<%	} %>
 				</ul>
 			</div>
 			<!-- Third column -->

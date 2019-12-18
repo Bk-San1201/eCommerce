@@ -10,7 +10,11 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
+@NamedQueries({
+	@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c"),
+	@NamedQuery(name="Customer.findByUsername", query="SELECT c FROM Customer c WHERE c.username = :username")
+})
+
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
