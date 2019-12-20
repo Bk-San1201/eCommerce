@@ -23,7 +23,7 @@ import session_bean.ProductSessionBean;
 /**
  * Servlet implementation class ProductServlet
  */
-@WebServlet(name = "/ProductServlet", urlPatterns = { "/deleteProduct", "/addProduct", "/editProduct" })
+@WebServlet(name = "/ProductServlet", urlPatterns = { "/deleteProduct", "/addProduct", "/editProduct" , "/search"})
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB

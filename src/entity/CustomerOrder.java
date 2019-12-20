@@ -18,10 +18,17 @@ public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="order_id")
+	@Column(name="order_id", unique=true, nullable=false)
 	private int orderId;
 
+	@Column(length=255)
+	private String address;
+
+	@Column(precision=10, scale=5)
 	private BigDecimal amount;
+
+	@Column(name="city_region", length=255)
+	private String cityRegion;
 
 	@Column(name="confirmation_number")
 	private int confirmationNumber;
@@ -30,7 +37,7 @@ public class CustomerOrder implements Serializable {
 	@Column(name="date_created")
 	private Date dateCreated;
 
-	private byte status;
+	private int status;
 
 	//bi-directional many-to-one association to Customer
 	@ManyToOne(cascade={CascadeType.ALL})
@@ -52,12 +59,28 @@ public class CustomerOrder implements Serializable {
 		this.orderId = orderId;
 	}
 
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public BigDecimal getAmount() {
 		return this.amount;
 	}
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public String getCityRegion() {
+		return this.cityRegion;
+	}
+
+	public void setCityRegion(String cityRegion) {
+		this.cityRegion = cityRegion;
 	}
 
 	public int getConfirmationNumber() {
@@ -76,11 +99,11 @@ public class CustomerOrder implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public byte getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(byte status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

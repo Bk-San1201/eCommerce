@@ -29,7 +29,8 @@ body {	font-family: Arial, Helvetica, sans-serif;
 	padding: 15px 20px;
 	margin: auto;
 	position: relative;
-	clear: both
+	clear: none;
+	/* height: 1.6em; */
 }
 
 

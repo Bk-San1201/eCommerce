@@ -45,25 +45,25 @@
 		</c:if>
 		<form id="checkoutForm" action="<c:url value='purchase' />" method="post">
 			<fieldset>
-				<label>Username<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getUsername() %>" />
+				<label>Username<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getUsername() %>" readonly/>
 			</fieldset>
 			<fieldset>
-				<label>Name<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getName() %>" />
+				<label>Name<span class="required">*</span></label> <input type="text" name="name" id="name" value="<%=customer.getName() %>" readonly/>
 			</fieldset>
 			<fieldset>
-				<label>Email<span class="required">*</span></label> <input type="text" name="email" id="email" value="${param.email}" />
+				<label>Email<span class="required">*</span></label> <input type="text" name="email" id="email" value="<%=customer.getEmail() %>" readonly/>
 			</fieldset>
 			<fieldset>
-				<label>Phone <span class="required">*</span></label> <input type="text" name="phone" id="phone" value="${param.phone}" />
+				<label>Phone <span class="required">*</span></label> <input type="text" name="phone" id="phone" value="<%=customer.getPhone() %>" readonly/>
 			</fieldset>
 			<fieldset>
-				<label>Address <span class="required">*</span></label> <input type="text" size="45" name="address" id="address" value="${param.address}" />
+				<label>Address <span class="required">*</span></label> <input type="text" size="45" name="address" id="address" value="<%=customer.getAddress() %>"  />
 			</fieldset>
 			<fieldset>
-				<label>City <span class="required">*</span></label> <input type="text" size="45" name="cityRegion" id="cityRegion" value="${param.cityRegion}" />
+				<label>City <span class="required">*</span></label> <input type="text" size="45" name="cityRegion" id="cityRegion" value="<%=customer.getCityRegion() %>" />
 			</fieldset>
 			<fieldset>
-				<label>Credit Card Number<span class="required">*</span></label> <input type="text" size="45" name="creditcard" id="creditcard" value="${param.creditcard}" />
+				<label>Credit Card Number<span class="required">*</span></label> <input type="text" size="45" name="creditcard" id="creditcard" value="<%=customer.getCcNumber() %>" readonly/>
 			</fieldset>
 			<fieldset>
 				<input value="Submit purchase" class="button white" type="submit">
