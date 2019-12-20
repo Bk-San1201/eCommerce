@@ -25,26 +25,36 @@ public class ProductDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="product_id")
+	@Column(name="product_id", unique=true, nullable=false)
 	private int productId;
 
+	@Column(length=2000)
 	private String accessories;
 
+	@Column(length=2000)
 	private String guaranty;
 
+	@Column(length=255)
 	private String image1;
 
+	@Column(length=255)
 	private String image2;
 
+	@Column(length=255)
 	private String image3;
 
+	@Column(length=255)
 	private String image4;
 
+	@Column(length=255)
 	private String image5;
 
+	@Column(length=1000)
 	private String information;
 
 	private int quantity;
+
+	private int sale;
 
 	//bi-directional one-to-one association to Product
 	@OneToOne(cascade={CascadeType.ALL})
@@ -134,6 +144,14 @@ public class ProductDetail implements Serializable {
 		this.quantity = quantity;
 	}
 
+	public int getSale() {
+		return this.sale;
+	}
+
+	public void setSale(int sale) {
+		this.sale = sale;
+	}
+
 	public Product getProduct() {
 		return this.product;
 	}
@@ -141,6 +159,7 @@ public class ProductDetail implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
 	public List<String> getAllImages() {
 		List<String> images = new ArrayList<String>();
 		if (image1 != null)
@@ -155,5 +174,6 @@ public class ProductDetail implements Serializable {
 			images.add(image5);
 		return images;
 	}
+
 
 }

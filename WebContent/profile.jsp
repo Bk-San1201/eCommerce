@@ -51,10 +51,15 @@ input {
       <li><a href="#fane3">Change password</a></li>
     </ul>
     <div id="fane1" class="tab_content">
-		<form action="#" id="contact_form" method="post">
+		<form action="<c:url value='editProfile'/>" id="contact_form" method="post">
 			<fieldset>
 				<label>Name <span class="required">*</span></label> <input
 					type="text" name="name" id="myName" value="<%=customer.getName() %>"
+					class="text requiredField" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>User Name <span class="required">*</span></label> <input
+					type="text" name="username" id="myName" value="<%=customer.getUsername()%>" readonly 
 					class="text requiredField" style="width: 50%">
 			</fieldset>
 			<fieldset>
@@ -70,7 +75,12 @@ input {
 			</fieldset>
 			<fieldset>
 				<label>Address <span class="required">*</span></label> <input
-					type="text" name="address" id="myAddress" value="<%=customer.getAddress() + ", " + customer.getCityRegion() %>"
+					type="text" name="address" id="myAddress" value="<%=customer.getAddress()%>"
+					class="text requiredField subject" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>City Region <span class="required">*</span></label> <input
+					type="text" name="cityregion" id="myAddress" value="<%=customer.getCityRegion() %>"
 					class="text requiredField subject" style="width: 50%">
 			</fieldset>
 			<fieldset>
@@ -94,10 +104,12 @@ input {
 		<!-- Code here -->
 		<table border="0" style="font-size:13px">
 			<th>Order Id</th>
+			<th>Customer</th>
 			<th>Date</th>
 			<th>Status</th>
 			<tr>
-				<td>31561681651</td>
+				<td><a href="#">31561681651</a></td>
+				<td>${customer.getName()}</td>
 				<td>18/12/2019</td>
 				<td>Done</td>
 			</tr>

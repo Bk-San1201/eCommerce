@@ -10,16 +10,19 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="category")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="category_id")
+	@Column(name="category_id", unique=true, nullable=false)
 	private int categoryId;
 
+	@Column(length=255)
 	private String image;
 
+	@Column(length=255)
 	private String name;
 
 	//bi-directional many-to-one association to Product

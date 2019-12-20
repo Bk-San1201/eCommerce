@@ -15,8 +15,6 @@
 <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css" media="all">
 <link rel="stylesheet" type="text/css" href="sliderengine/amazingslider-1.css">
 <link rel="stylesheet" type="text/css" href="css/search.css">
-<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-
 <!-- JS Files -->
 <script type="text/javascript" src="js/jquery.tools.min.js"></script>
 <script type="text/javascript" src="sliderengine/jquery.js"></script>
@@ -42,9 +40,9 @@
 				</c:choose>
 			</a>
 		</div>
-		<div style="width:70%; /* border:2px solid blue; */ float:right; position:relative">
+	<div style="width:70%; /* border:2px solid blue; */ float:right; position:relative">
 			<div class="s130">
-				<form>
+				<form action="<c:url value='search'/>" method="get">
 					<div class="inner-form">
 						<div class="input-field first-wrap">
 							<div class="svg-wrapper">
@@ -88,5 +86,6 @@
 			<li><a href="contact.jsp">Contact</a></li>
 		</ol>
 	</div>
+	
 </body>
 </html>
