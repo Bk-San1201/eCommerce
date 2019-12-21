@@ -11,30 +11,34 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="product")
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="product_id")
+	@Column(name="product_id", unique=true, nullable=false)
 	private int productId;
 
+	@Column(length=255)
 	private String description;
 
-	@Column(name="description_detail")
+	@Column(name="description_detail", length=1000)
 	private String descriptionDetail;
 
+	@Column(length=255)
 	private String image;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
 	private Date lastUpdate;
 
+	@Column(length=255)
 	private String name;
 
 	private double price;
 
-	@Column(name="thumb_image")
+	@Column(name="thumb_image", length=255)
 	private String thumbImage;
 
 	//bi-directional many-to-one association to OrderedProduct

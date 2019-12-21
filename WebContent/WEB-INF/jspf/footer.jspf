@@ -18,9 +18,10 @@
 				<%
 					String loginisexist = (String) request.getSession().getAttribute("login");
 					if (loginisexist == null) { %>
-						<h3>Welcome to out eMarket</h3>
+						<h3>Welcome to our eMarket</h3>
 						<ul class="footer_links">
 						<li><a href="login.jsp">Login</a></li>
+						<li><a href="register.jsp">Register</a></li>
 				<% 	} else if (loginisexist.contentEquals("admin")) { %>
 						<h3>Administrator</h3>
 						<ul class="footer_links">

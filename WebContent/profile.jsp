@@ -31,10 +31,12 @@ input {
 <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css" media="all">
 <script src="js/fancybox/jquery.fancybox-1.2.1.js"></script>
 </head>
-<%@page import="entity.Customer"%>
+<%@page import="entity.*"%>
+<%@page import="java.util.List"%>
 <%
 	session.setAttribute("view", "/product");
 	Customer customer = (Customer) session.getAttribute("customer");
+	List<CustomerOrder> customerOrderList = (List<CustomerOrder>) session.getAttribute("customerOrderList");
 %>
 
 
@@ -51,10 +53,15 @@ input {
       <li><a href="#fane3">Change password</a></li>
     </ul>
     <div id="fane1" class="tab_content">
-		<form action="#" id="contact_form" method="post">
+		<form action="<c:url value='editProfile'/>" id="contact_form" method="post">
 			<fieldset>
 				<label>Name <span class="required">*</span></label> <input
 					type="text" name="name" id="myName" value="<%=customer.getName() %>"
+					class="text requiredField" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>User Name <span class="required">*</span></label> <input
+					type="text" name="username" id="myName" value="<%=customer.getUsername()%>" readonly 
 					class="text requiredField" style="width: 50%">
 			</fieldset>
 			<fieldset>
@@ -70,7 +77,12 @@ input {
 			</fieldset>
 			<fieldset>
 				<label>Address <span class="required">*</span></label> <input
-					type="text" name="address" id="myAddress" value="<%=customer.getAddress() + ", " + customer.getCityRegion() %>"
+					type="text" name="address" id="myAddress" value="<%=customer.getAddress()%>"
+					class="text requiredField subject" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>City Region <span class="required">*</span></label> <input
+					type="text" name="cityregion" id="myAddress" value="<%=customer.getCityRegion() %>"
 					class="text requiredField subject" style="width: 50%">
 			</fieldset>
 			<fieldset>
@@ -93,14 +105,20 @@ input {
 	<div id="fane2" class="tab_content">
 		<!-- Code here -->
 		<table border="0" style="font-size:13px">
-			<th>Order Id</th>
+			<th>Confirm Number</th>
+			<th>Customer</th>
 			<th>Date</th>
 			<th>Status</th>
-			<tr>
-				<td>31561681651</td>
-				<td>18/12/2019</td>
-				<td>Done</td>
+			<c:forEach var="customerOrder" items="<%=customerOrderList %>">
+				<tr>
+				<td><a href="<c:url value='orderDetail?${customerOrder.orderId}'/>">${customerOrder.getConfirmationNumber() }</a></td>
+				<td>${customer.getName()}</td>
+				<td>${customerOrder.getDateCreated()}</td>
+				<c:if test="${customerOrder.status > 0}"><td>Delivered</td></c:if>
+				<c:if test="${customerOrder.status < 1}"><td>Waiting to Delivery</td></c:if>
 			</tr>
+			</c:forEach>
+			
 		</table>
 	</div>
 	<div id="fane3" class="tab_content">

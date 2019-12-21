@@ -72,7 +72,7 @@ public class ControllerServlet extends HttpServlet {
 		String userPath = request.getRequestURI().substring(request.getContextPath().length());
 		if (userPath.equals("/category")) {
 			String categoryId = request.getQueryString();
-	
+
 			if (categoryId != null) {
 				Category selectedCategory;
 				List<Product> categoryProducts;
@@ -138,7 +138,6 @@ public class ControllerServlet extends HttpServlet {
 		Validator validator = new Validator();
 		String userPath = request.getRequestURI().substring(request.getContextPath().length());
 
-	
 		if (userPath.equals("/updateCart")) {
 			int productId = Integer.parseInt(request.getParameter("productId"));
 			cart = (ShoppingCart) session.getAttribute("cart");
@@ -146,19 +145,16 @@ public class ControllerServlet extends HttpServlet {
 			userPath = "/viewCart";
 		} else if (userPath.equals("/purchase")) {
 			if (cart != null) {
-				String name = request.getParameter("name");
-				String email = request.getParameter("email");
-				String phone = request.getParameter("phone");
+				Customer customer = (Customer) session.getAttribute("customer");
 				String address = request.getParameter("address");
 				String cityRegion = request.getParameter("cityRegion");
-				String ccNumber = request.getParameter("creditcard");
 				boolean validationErrorFlag = false;
-				validationErrorFlag = validator.validateForm(name, email, phone, address, cityRegion, ccNumber);
+				validationErrorFlag = validator.validateForm(address, cityRegion);
 				if (!validationErrorFlag) {
 					request.setAttribute("validationErrorFlag", validationErrorFlag);
 					userPath = "checkout";
 				} else {
-					int orderId = orderManager.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+					int orderId = orderManager.placeOrder(address, cityRegion, customer.getCustomerId(), cart);
 					if (orderId != 0) {
 						Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
 						String language = "";
@@ -168,7 +164,9 @@ public class ControllerServlet extends HttpServlet {
 						// dissociate shopping cart from session
 						cart = null;
 						// end session
-						session.invalidate();
+						session.setAttribute("cart", null);
+						List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+						session.setAttribute("customerOrderList", customerOrderList);
 						if (!language.isEmpty()) { //
 
 							request.setAttribute("language", language); //

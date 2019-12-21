@@ -69,6 +69,11 @@
 						<label for="name_first">Price: </label> <input type="text"
 							name="price" id="name_first" required />
 					</div>
+					
+					<div>
+						<label for="name_first">Quantity: </label> <input type="text"
+							name="quantity" id="name_first" required />
+					</div>
 
 					<div>
 						<label for="about_you">Description: </label>

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entity.Customer;
+import entity.CustomerOrder;
+import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
 
 /**
@@ -21,6 +23,8 @@ import session_bean.CustomerSessionBean;
 public class LoginServlet extends HttpServlet {
 	@EJB
 	private CustomerSessionBean customerSB;
+	@EJB
+	private CustomerOrderSessionBean customerOrderSB;
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("login");
 			session.removeAttribute("check");
 			session.removeAttribute("customer");
+			session.removeAttribute("customerOrderList");
 			userPath = "index";
 		}
 		String url = userPath.trim() + ".jsp";
@@ -69,19 +74,40 @@ public class LoginServlet extends HttpServlet {
 			if (name.equals("admin")) {
 				if (password.equals("admin")) {
 					session.setAttribute("login", name);
-					userPath = "profile";
+					userPath = "index";
 				}
 			} else if (isUser(name, password)) {
 				session.setAttribute("login", name);
 				Customer customer = customerSB.findByUsername(name);
 				session.setAttribute("customer", customer);
+				List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+				session.setAttribute("customerOrderList", customerOrderList);
 				userPath = "index";
 			} else {
 				session.setAttribute("check", check);
 				userPath = "login";
 			}
 		} else if (userPath.contentEquals("/register")) {
-
+			String username = request.getParameter("username");
+			if (isUserExist(username)) {
+				session.setAttribute("username_exist", "OK");
+				userPath = "register";
+			} else {
+				Customer customer = new Customer();
+				
+				customer.setCustomerId(customerSB.findAll().size() + 1);
+				customer.setName(request.getParameter("fullName"));
+				customer.setUsername(request.getParameter("username"));
+				customer.setAddress(request.getParameter("address"));
+				customer.setCityRegion(request.getParameter("cityregion"));
+				customer.setEmail(request.getParameter("email"));
+				customer.setPassword(request.getParameter("password"));
+				customer.setCcNumber(request.getParameter("ccNumber"));
+				customer.setPhone(request.getParameter("phone"));
+				
+				customerSB.create(customer);
+				userPath = "login";
+			}
 		}
 		String url = userPath.trim() + ".jsp";
 		try {
@@ -96,6 +122,17 @@ public class LoginServlet extends HttpServlet {
 		List<Customer> cus = customerSB.findAll();
 		for (Customer c : cus) {
 			if (c.getUsername().contentEquals(name) && c.getPassword().contentEquals(password)) {
+				res = true;
+				break;
+			}
+		}
+		return res;
+	}
+	private boolean isUserExist(String username) {
+		boolean res = false;
+		List<Customer> cus = customerSB.findAll();
+		for (Customer c : cus) {
+			if (c.getUsername().contentEquals(username)) {
 				res = true;
 				break;
 			}

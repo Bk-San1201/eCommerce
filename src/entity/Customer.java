@@ -10,33 +10,40 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="customer")
 @NamedQueries({
 	@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c"),
 	@NamedQuery(name="Customer.findByUsername", query="SELECT c FROM Customer c WHERE c.username = :username")
 })
-
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="customer_id")
+	@Column(name="customer_id", unique=true, nullable=false)
 	private int customerId;
 
+	@Column(length=255)
 	private String address;
 
+	@Column(length=225)
 	private String ccNumber;
 
-	@Column(name="city_region")
+	@Column(name="city_region", length=255)
 	private String cityRegion;
 
+	@Column(length=225)
 	private String email;
 
+	@Column(length=255)
 	private String name;
 
+	@Column(length=225)
 	private String password;
 
+	@Column(length=255)
 	private String phone;
 
+	@Column(length=225)
 	private String username;
 
 	//bi-directional many-to-one association to CustomerOrder

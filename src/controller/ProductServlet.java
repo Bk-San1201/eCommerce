@@ -1,9 +1,9 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ import session_bean.ProductSessionBean;
 /**
  * Servlet implementation class ProductServlet
  */
-@WebServlet(name = "/ProductServlet", urlPatterns = { "/deleteProduct", "/addProduct", "/editProduct" })
+@WebServlet(name = "/ProductServlet", urlPatterns = { "/deleteProduct", "/addProduct", "/editProduct" , "/search"})
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -61,6 +61,10 @@ public class ProductServlet extends HttpServlet {
 
 			userPath = "index";
 
+		} else if (userPath.contentEquals("/search")) {
+			String keyword = request.getParameter("keyword");
+			Set<Product> products = productSB.findByKeyword(keyword);
+			userPath = "resultSearch";
 		}
 		String url = userPath.trim() + ".jsp";
 		try {
@@ -102,6 +106,7 @@ public class ProductServlet extends HttpServlet {
 			@SuppressWarnings("deprecation")
 			Date lastUpdate = new Date(year - 1900, month - 1, day);
 			double price = Double.parseDouble(request.getParameter("price"));
+			int quantity = Integer.parseInt(request.getParameter("quantity"));
 			String techniqueDetail = (String) request.getParameter("techniqueDetail");
 			String accessories = (String) request.getParameter("accessories");
 			String guaranty = (String) request.getParameter("guaranty");
@@ -143,6 +148,7 @@ public class ProductServlet extends HttpServlet {
 			pd.setAccessories(accessories);
 			pd.setGuaranty(guaranty);
 			pd.setInformation(description_detail);
+			pd.setQuantity(quantity);
 			
 			productDetailSB.create(pd);
 			session.setAttribute("selectedProduct", p);
@@ -183,6 +189,7 @@ public class ProductServlet extends HttpServlet {
 			int year = Integer.parseInt(request.getParameter("year"));
 			@SuppressWarnings("deprecation")
 			Date lastUpdate = new Date(year - 1900, month - 1, day);
+			int quantity = Integer.parseInt(request.getParameter("quantity"));
 			double price = Double.parseDouble(request.getParameter("price"));
 			String techniqueDetail = (String) request.getParameter("techniqueDetail");
 			String accessories = (String) request.getParameter("accessories");
@@ -214,6 +221,7 @@ public class ProductServlet extends HttpServlet {
 			pd.setAccessories(accessories);
 			pd.setGuaranty(guaranty);
 			pd.setInformation(description_detail);
+			pd.setQuantity(quantity);
 			pd.setInformation(techniqueDetail);
 			productDetailSB.remove(selectedProductDetail);
 			productSB.remove(selectedProduct);

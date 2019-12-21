@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -56,12 +57,10 @@ public class OrderManager {
     public OrderManager(){}
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public int placeOrder(String name, String email, String phone, String address, String cityRegion, String ccNumber, ShoppingCart cart) {
-        try {
-            Customer customer = addCustomer(name, email, phone, address,
-                    cityRegion, ccNumber);
-//            System.out.println("!!!!!\n!!!!!!!!!\n!!!!!");
-            CustomerOrder order = addOrder(customer, cart);
+    public int placeOrder(String address, String cityRegion, int customerId, ShoppingCart cart) {
+        try {        
+//        	customer = customerSB.getEntityManager().merge(customer);
+            CustomerOrder order = addOrder(customerId, cart, address, cityRegion);
             addOrderedItems(order, cart);
             return order.getOrderId();
         } catch (Exception e) {
@@ -71,27 +70,16 @@ public class OrderManager {
         }
     }
 
-    public Customer addCustomer(String name, String email, String phone,
-            String address, String cityRegion, String ccNumber) {
-        Customer customer = new Customer();
-        customer.setCustomerId(customerSB.findAll().size() + 1);
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setPhone(phone);
-        customer.setAddress(address);
-        customer.setCityRegion(cityRegion);
-        customer.setCcNumber(ccNumber);
-        customerSB.create(customer);
-        
-        return customer;
-    }
 
-    public CustomerOrder addOrder(Customer customer, ShoppingCart cart) {
+    public CustomerOrder addOrder(int customerId, ShoppingCart cart, String address, String cityRegion) {
 // set up customer order
         int id = customerOrderSB.findAll().size() + 1;
         CustomerOrder order = new CustomerOrder();
         order.setOrderId(id);
-        order.setCustomer(customer);
+        order.setCustomer(customerSB.find(customerId));
+        order.setStatus(0);
+        order.setAddress(address);
+        order.setCityRegion(cityRegion);
         cart.calculateTotal("5");
         order.setAmount(new BigDecimal(cart.getTotal()));
         
@@ -99,8 +87,9 @@ public class OrderManager {
         Random random = new Random();
         int i = random.nextInt(999999999);
         order.setConfirmationNumber(i);
-//        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-        order.setDateCreated(new Date());
+        
+        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+        order.setDateCreated(date);
         customerOrderSB.create(order);
         return order;
     }

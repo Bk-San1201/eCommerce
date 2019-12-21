@@ -24,12 +24,12 @@ public class OrderedProduct implements Serializable {
 	private int quantity;
 
 	//bi-directional many-to-one association to CustomerOrder
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="order_id")
 	private CustomerOrder customerOrder;
 
 	//bi-directional many-to-one association to Product
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="product_id")
 	private Product product;
 
