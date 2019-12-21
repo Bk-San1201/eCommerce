@@ -165,6 +165,8 @@ public class ControllerServlet extends HttpServlet {
 						cart = null;
 						// end session
 						session.setAttribute("cart", null);
+						List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+						session.setAttribute("customerOrderList", customerOrderList);
 						if (!language.isEmpty()) { //
 
 							request.setAttribute("language", language); //

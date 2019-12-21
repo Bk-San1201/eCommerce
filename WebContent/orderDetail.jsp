@@ -15,7 +15,7 @@
         <div id="container">
             <div class="one">
                 <div class="heading_bg">
-                    <h2>Confirmation</h2>
+                    <h2>Order Detail</h2>
                 </div>
                 <p id="confirmationText">
                     <strong>Succeed</strong>
@@ -71,7 +71,7 @@
                 </div>
                 <table>
                     <tr>
-                        <td colspan="3">Name: 
+                       <td colspan="3">Name: 
                             ${customer.name}
                             <br>Address: 
                             ${orderRecord.address}
@@ -84,6 +84,10 @@
                             <br>
                             <strong>Phone :</strong>
                             ${customer.phone}
+                            <br>
+                            <strong>Status</strong>
+                            <c:if test="${orderRecord.status > 0}">Delivered</c:if>
+							<c:if test="${orderRecord.status < 1}">Waiting to Delivery</c:if>
                         </td>
                     </tr>
                 </table>

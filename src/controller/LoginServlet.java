@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entity.Customer;
+import entity.CustomerOrder;
+import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
 
 /**
@@ -21,6 +23,8 @@ import session_bean.CustomerSessionBean;
 public class LoginServlet extends HttpServlet {
 	@EJB
 	private CustomerSessionBean customerSB;
+	@EJB
+	private CustomerOrderSessionBean customerOrderSB;
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("login");
 			session.removeAttribute("check");
 			session.removeAttribute("customer");
+			session.removeAttribute("customerOrderList");
 			userPath = "index";
 		}
 		String url = userPath.trim() + ".jsp";
@@ -75,6 +80,8 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("login", name);
 				Customer customer = customerSB.findByUsername(name);
 				session.setAttribute("customer", customer);
+				List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+				session.setAttribute("customerOrderList", customerOrderList);
 				userPath = "index";
 			} else {
 				session.setAttribute("check", check);

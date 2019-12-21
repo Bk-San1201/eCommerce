@@ -31,10 +31,12 @@ input {
 <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css" media="all">
 <script src="js/fancybox/jquery.fancybox-1.2.1.js"></script>
 </head>
-<%@page import="entity.Customer"%>
+<%@page import="entity.*"%>
+<%@page import="java.util.List"%>
 <%
 	session.setAttribute("view", "/product");
 	Customer customer = (Customer) session.getAttribute("customer");
+	List<CustomerOrder> customerOrderList = (List<CustomerOrder>) session.getAttribute("customerOrderList");
 %>
 
 
@@ -103,16 +105,20 @@ input {
 	<div id="fane2" class="tab_content">
 		<!-- Code here -->
 		<table border="0" style="font-size:13px">
-			<th>Order Id</th>
+			<th>Confirm Number</th>
 			<th>Customer</th>
 			<th>Date</th>
 			<th>Status</th>
-			<tr>
-				<td><a href="#">31561681651</a></td>
+			<c:forEach var="customerOrder" items="<%=customerOrderList %>">
+				<tr>
+				<td><a href="<c:url value='orderDetail?${customerOrder.orderId}'/>">${customerOrder.getConfirmationNumber() }</a></td>
 				<td>${customer.getName()}</td>
-				<td>18/12/2019</td>
-				<td>Done</td>
+				<td>${customerOrder.getDateCreated()}</td>
+				<c:if test="${customerOrder.status > 0}"><td>Delivered</td></c:if>
+				<c:if test="${customerOrder.status < 1}"><td>Waiting to Delivery</td></c:if>
 			</tr>
+			</c:forEach>
+			
 		</table>
 	</div>
 	<div id="fane3" class="tab_content">

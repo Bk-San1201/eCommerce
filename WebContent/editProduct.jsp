@@ -66,7 +66,12 @@
                             <label for="name_first">Price: </label>
                             <input type="text" name="price" id="name_first" value="<%=selectedProduct.getPrice()%>"/>
                         </div>
-
+	
+						<div>
+						<label for="name_first">Quantity: </label> <input type="text"
+							name="quantity" id="name_first" required />
+						</div>
+					
                         <div>
                             <label for="about_you">Description: </label>
                             <textarea name="description" id="about_you" rows="10" cols="5"><%=selectedProduct.getDescription()%></textarea>

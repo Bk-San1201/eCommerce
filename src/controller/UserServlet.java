@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,17 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entity.Customer;
+import entity.CustomerOrder;
+import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
+import session_bean.OrderManager;
+import session_bean.OrderedProductSessionBean;
 
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile"})
+@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail"})
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private CustomerSessionBean customerSB;
-       
+    @EJB 
+    private CustomerOrderSessionBean customerOrderSB;
+    @EJB
+    private OrderedProductSessionBean orderedProductSB;
+    @EJB
+    private OrderManager orderManager;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,8 +44,26 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		String userPath = request.getRequestURI().substring(request.getContextPath().length());
+		if (userPath.contentEquals("/orderDetail")) {
+			String orderId = request.getQueryString();
+			CustomerOrder customerOrder = customerOrderSB.find(Integer.parseInt(orderId));
+			Map orderMap = orderManager.getOrderDetails(Integer.parseInt(orderId));
+			// place order details in request scope
+			request.setAttribute("customer", orderMap.get("customer"));
+			request.setAttribute("products", orderMap.get("products"));
+			request.setAttribute("orderRecord", orderMap.get("orderRecord"));
+			request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
+			userPath = "orderDetail";
+		}
+		String url = userPath.trim() + ".jsp";
+		try {
+			request.getRequestDispatcher(url).forward(request, response);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 	}
 
 	/**

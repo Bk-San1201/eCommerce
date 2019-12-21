@@ -56,6 +56,10 @@
 			<p><%=selectedProduct.getPrice()%>
 				$
 			</p>
+			<h3>Status</h3>
+			<c:if test="${selectedProductDetail.getQuantity() > 0}"><p>In Stock</p></c:if>
+			<c:if test="${selectedProductDetail.getQuantity() < 0}"><p>Out of Stock</p></c:if>
+			
 			<p style="text-align: left; margin-right: 16px">
 				<a href="<c:url value='addToCart?${selectedProduct.getProductId()}'/>" class="button">Add to cart</a>
 				<%

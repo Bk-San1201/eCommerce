@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -86,8 +87,9 @@ public class OrderManager {
         Random random = new Random();
         int i = random.nextInt(999999999);
         order.setConfirmationNumber(i);
-//        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-        order.setDateCreated(new Date());
+        
+        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+        order.setDateCreated(date);
         customerOrderSB.create(order);
         return order;
     }
