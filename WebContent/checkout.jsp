@@ -25,11 +25,12 @@
 		});
 	});
 </script>
-<%@page import="entity.Customer"%>
+<%@page import="entity.*"%>
+<%@page import="java.util.List"%>
 <%
 	session.setAttribute("view", "/checkout");
 	Customer customer = (Customer) session.getAttribute("customer");
-	
+	List<Address> addressbook = (List<Address>) session.getAttribute("addressbook");
 %>
 
 <div id="container">
@@ -57,10 +58,14 @@
 				<label>Phone <span class="required">*</span></label> <input type="text" name="phone" id="phone" value="<%=customer.getPhone() %>" readonly/>
 			</fieldset>
 			<fieldset>
-				<label>Address <span class="required">*</span></label> <input type="text" size="45" name="address" id="address" value="<%=customer.getAddress() %>"  />
-			</fieldset>
-			<fieldset>
-				<label>City <span class="required">*</span></label> <input type="text" size="45" name="cityRegion" id="cityRegion" value="<%=customer.getCityRegion() %>" />
+				<label>Address <span class="required">*</span></label>
+				<br><select name="addressId" id="status" required>
+								<option value="">-- Address --</option>
+							<c:forEach var="address" items="${addressbook}"
+									varStatus="iter">
+								<option value="${address.addressId }">${address.address }, ${address.cityRegion }</option>
+							</c:forEach>
+				</select>
 			</fieldset>
 			<fieldset>
 				<label>Credit Card Number<span class="required">*</span></label> <input type="text" size="45" name="creditcard" id="creditcard" value="<%=customer.getCcNumber() %>" readonly/>
