@@ -9,13 +9,29 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<style>
+label {
+	font-family: QuickSandBook;
+	font-size:.5cm;
+/* 	color:#02B1DC */
+}
+input { 
+	font-family: "QuicksandBook", Arial, sans-serif; 
+	font-style:bold;
+	font-size:.42cm;
+	/* width: 100%; */
+}
+fieldset>div{
+	padding: 10px 0px 10px 0px;
+}
+</style>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Add Profile</title>
 
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" media="screen"
+<!-- <link rel="stylesheet" type="text/css" media="screen"
 	href="css/screen.css" />
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css" />  -->
 <link rel="stylesheet" type="text/css" media="screen" href="css/ie.css" />
 
 

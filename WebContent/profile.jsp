@@ -62,7 +62,7 @@ input {
 			<fieldset>
 				<label>User Name <span class="required">*</span></label> <input
 					type="text" name="username" id="myName" value="<%=customer.getUsername()%>" readonly 
-					class="text requiredField" style="width: 50%">
+					class="text requiredField" style="width: 50%; color:#FF0000">
 			</fieldset>
 			<fieldset>
 				<label>Email <span class="required">*</span></label> <input

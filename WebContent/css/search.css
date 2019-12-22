@@ -1,7 +1,9 @@
 
 input,
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: sans-serif;
+  font-style: bold;
+  font-size: 20px;
 }
 
 .s130 {
@@ -10,7 +12,8 @@ button {
   display: flex;
   -ms-flex-pack: center;
   justify-content: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: sans-serif;
+  font-style: bold;
   padding: 0px;
 }
 
