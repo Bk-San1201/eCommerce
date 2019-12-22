@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -17,14 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cart.ShoppingCart;
-import cart.ShoppingCartItem;
+import entity.Address;
 import entity.Category;
 import entity.Customer;
 import entity.CustomerOrder;
-import entity.OrderedProduct;
-import entity.OrderedProductPK;
 import entity.Product;
 import entity.ProductDetail;
+import session_bean.AddressSessionBean;
 import session_bean.CategorySessionBean;
 import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
@@ -57,11 +54,12 @@ public class ControllerServlet extends HttpServlet {
 	private OrderedProductSessionBean orderedProductSB;
 	@EJB
 	private CustomerOrderSessionBean customerOrderSB;
-
+	@EJB
+	private AddressSessionBean addressSB;
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
 		super.init(servletConfig);
-		getServletContext().setAttribute("newProducts", productSB.findRange(new int[] { 0, 5 }));
+		getServletContext().setAttribute("newProducts", productSB.findTop5Sale());
 		getServletContext().setAttribute("categories", categorySB.findAll());
 	}
 
@@ -146,15 +144,15 @@ public class ControllerServlet extends HttpServlet {
 		} else if (userPath.equals("/purchase")) {
 			if (cart != null) {
 				Customer customer = (Customer) session.getAttribute("customer");
-				String address = request.getParameter("address");
-				String cityRegion = request.getParameter("cityRegion");
+				int addressId = Integer.parseInt(request.getParameter("addressId"));
+				Address address = addressSB.find(addressId);	
 				boolean validationErrorFlag = false;
-				validationErrorFlag = validator.validateForm(address, cityRegion);
+				validationErrorFlag = validator.validateForm(address.getAddress(), address.getCityRegion());
 				if (!validationErrorFlag) {
 					request.setAttribute("validationErrorFlag", validationErrorFlag);
 					userPath = "checkout";
 				} else {
-					int orderId = orderManager.placeOrder(address, cityRegion, customer.getCustomerId(), cart);
+					int orderId = orderManager.placeOrder(address.getAddress(), address.getCityRegion(), customer.getCustomerId(), cart);
 					if (orderId != 0) {
 						Locale locale = (Locale) session.getAttribute("javax.servlet.jsp.jstl.fmt.locale.session");
 						String language = "";
@@ -165,6 +163,8 @@ public class ControllerServlet extends HttpServlet {
 						cart = null;
 						// end session
 						session.setAttribute("cart", null);
+						List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+						session.setAttribute("customerOrderList", customerOrderList);
 						if (!language.isEmpty()) { //
 
 							request.setAttribute("language", language); //

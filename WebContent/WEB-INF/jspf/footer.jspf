@@ -27,7 +27,9 @@
 						<ul class="footer_links">
 						<li><a href="index.jsp">Admin</a></li>
 						<li><a href="logout">Logout</a></li>
-						<li><a href="addProduct.jsp">Add New Product</a>
+						<li><a href="addProduct.jsp">Add New Product</a></li>
+						<li><a href="orderHistory">Order History</a></li>
+						<li><a href="userProfile">User Management</a></li>
 				<%	} else { %>
 						<h3>Customer</h3>
 						<ul class="footer_links">

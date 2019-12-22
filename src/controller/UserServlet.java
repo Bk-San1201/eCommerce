@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -10,18 +12,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Address;
 import entity.Customer;
+import entity.CustomerOrder;
+import session_bean.AddressSessionBean;
+import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
+import session_bean.OrderManager;
+import session_bean.OrderedProductSessionBean;
 
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile"})
+@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail", "/addAddress", "/deleteAddress"})
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private CustomerSessionBean customerSB;
-       
+    @EJB 
+    private CustomerOrderSessionBean customerOrderSB;
+    @EJB
+    private OrderedProductSessionBean orderedProductSB;
+    @EJB
+    private OrderManager orderManager;
+    @EJB
+    private AddressSessionBean addressSB;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,8 +49,35 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		String userPath = request.getRequestURI().substring(request.getContextPath().length());
+		if (userPath.contentEquals("/orderDetail")) {
+			String orderId = request.getQueryString();
+			CustomerOrder customerOrder = customerOrderSB.find(Integer.parseInt(orderId));
+			Map orderMap = orderManager.getOrderDetails(Integer.parseInt(orderId));
+			// place order details in request scope
+			request.setAttribute("customer", orderMap.get("customer"));
+			request.setAttribute("products", orderMap.get("products"));
+			request.setAttribute("orderRecord", orderMap.get("orderRecord"));
+			request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
+			userPath = "orderDetail";
+		} else if (userPath.equals("/deleteAddress")) {
+			int addressId = Integer.parseInt(request.getParameter("addressId"));
+			addressSB.remove(addressSB.find(addressId));
+//			set again
+			Customer customer = (Customer) session.getAttribute("customer");
+			List<Address> addressbook = addressSB.findByCustomer(customer);
+			session.setAttribute("addressbook", addressbook);
+
+			userPath = "profile";
+		}
+		String url = userPath.trim() + ".jsp";
+		try {
+			request.getRequestDispatcher(url).forward(request, response);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -55,6 +97,24 @@ public class UserServlet extends HttpServlet {
 			customer.setCcNumber(request.getParameter("ccNumber"));
 			
 			customerSB.edit(customer);
+			userPath = "profile";
+		} else if (userPath.contentEquals("/addAddress")) {
+			Customer customer = (Customer) session.getAttribute("customer");
+			List<Address> addressbook = addressSB.findAll();
+			int size = addressbook.size();
+			int addressId = addressbook.get(size - 1).getAddressId() + 1;
+			Address address = new Address();
+			address.setAddressId(addressId);
+			address.setPhone(request.getParameter("phone"));
+			address.setAddress(request.getParameter("address"));
+			address.setCityRegion(request.getParameter("cityregion"));
+			address.setCustomer(customerSB.find(customer.getCustomerId()));
+			
+			addressSB.create(address);
+			// set again
+			addressbook = addressSB.findByCustomer(customer);
+			session.setAttribute("addressbook", addressbook);
+
 			userPath = "profile";
 		}
 		String url = userPath.trim() + ".jsp";

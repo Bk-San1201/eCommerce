@@ -32,7 +32,7 @@
                 </div>
                 <table>
                     <th>Product </th>
-                    <th></th>
+                   <th>Quantity</th>
                     <th>Price</th>
                         <c:forEach var="orderedProduct" items="${orderedProducts}"
                                    varStatus="iter">
@@ -71,12 +71,12 @@
                 </div>
                 <table>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="3">Name: 
                             ${customer.name}
+                            <br>Address: 
+                            ${orderRecord.address}
                             <br>
-                            ${customer.address}
-                            <br>
-                            City: ${customer.cityRegion}
+                            City: ${orderRecord.cityRegion}
                             <br>
                             <hr>
                             <strong>Email :</strong>

@@ -5,7 +5,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import entity.Category;
 import entity.Customer;
 
 /**
@@ -28,4 +30,8 @@ public class CustomerSessionBean extends AbstractSessionBean<Customer> {
 		return (Customer) em.createNamedQuery("Customer.findByUsername").setParameter("username",
                 username).getSingleResult();
 	}
+	public List<Customer> findAll() {
+    	Query q = getEntityManager().createNamedQuery("Customer.findAll");
+		return q.getResultList();
+    }
 }

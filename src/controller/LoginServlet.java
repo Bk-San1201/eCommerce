@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Address;
 import entity.Customer;
+import entity.CustomerOrder;
+import session_bean.AddressSessionBean;
+import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
 
 /**
@@ -21,7 +25,10 @@ import session_bean.CustomerSessionBean;
 public class LoginServlet extends HttpServlet {
 	@EJB
 	private CustomerSessionBean customerSB;
-
+	@EJB
+	private CustomerOrderSessionBean customerOrderSB;
+	@EJB
+	private AddressSessionBean addressSB;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -44,6 +51,8 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("login");
 			session.removeAttribute("check");
 			session.removeAttribute("customer");
+			session.removeAttribute("customerOrderList");
+			session.removeAttribute("addressbook");
 			userPath = "index";
 		}
 		String url = userPath.trim() + ".jsp";
@@ -74,7 +83,11 @@ public class LoginServlet extends HttpServlet {
 			} else if (isUser(name, password)) {
 				session.setAttribute("login", name);
 				Customer customer = customerSB.findByUsername(name);
+				List<Address> addressbook = addressSB.findByCustomer(customer);
 				session.setAttribute("customer", customer);
+				List<CustomerOrder> customerOrderList = customerOrderSB.findByCustomer(customer);
+				session.setAttribute("customerOrderList", customerOrderList);
+				session.setAttribute("addressbook", addressbook);
 				userPath = "index";
 			} else {
 				session.setAttribute("check", check);

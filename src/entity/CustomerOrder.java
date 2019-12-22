@@ -3,6 +3,7 @@ package entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="customer_order")
-@NamedQuery(name="CustomerOrder.findAll", query="SELECT c FROM CustomerOrder c")
+@NamedQueries({
+	@NamedQuery(name="CustomerOrder.findAll", query="SELECT c FROM CustomerOrder c"),
+	@NamedQuery(name="CustomerOrder.findByUsername", query="SELECT c FROM CustomerOrder c WHERE c.customer = :customer")
+})
+
 public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +50,7 @@ public class CustomerOrder implements Serializable {
 	private Customer customer;
 
 	//bi-directional many-to-one association to OrderedProduct
-	@OneToMany(mappedBy="customerOrder")
+	@OneToMany(mappedBy="customerOrder", cascade={CascadeType.ALL})
 	private List<OrderedProduct> orderedProducts;
 
 	public CustomerOrder() {
@@ -92,6 +97,7 @@ public class CustomerOrder implements Serializable {
 	}
 
 	public Date getDateCreated() {
+		
 		return this.dateCreated;
 	}
 

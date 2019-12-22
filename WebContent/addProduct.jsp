@@ -69,6 +69,11 @@
 						<label for="name_first">Price: </label> <input type="text"
 							name="price" id="name_first" required />
 					</div>
+					
+					<div>
+						<label for="name_first">Quantity: </label> <input type="text"
+							name="quantity" id="name_first" required />
+					</div>
 
 					<div>
 						<label for="about_you">Description: </label>
@@ -83,7 +88,7 @@
 						<!-- Month -->
 						<div>
 							<label for="dob_month">Month</label> <select name="month"
-								id="dob_month"requiredField">>
+								id="dob_month" requiredField">>
 								<option value="">- Month -</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
