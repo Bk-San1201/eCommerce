@@ -1,5 +1,6 @@
 <%@page import="entity.ProductDetail"%>
-<%@page import="entity.Product"%>
+<%@page import="entity.*"%>
+<%@page import="java.util.List"%>
 <%
 	session.setAttribute("view", "/product");
 	Product selectedProduct = (Product) session.getAttribute("selectedProduct");

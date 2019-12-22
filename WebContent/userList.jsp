@@ -19,7 +19,7 @@
 		<c:forEach var="customer" items="${customers }"
 			varStatus="iter">
 			<tr>
-				<td><a href="<c:url value='orderDetail?${customerOrder.orderId}'/>">${customer.username }</a></td>
+				<td><a href="<c:url value='customer?${customer.customerId}'/>">${customer.username }</a></td>
 				<td>${customer.name }</td>
 				<td>${customer.email }</td>
 				<td>${customer.phone}</td>

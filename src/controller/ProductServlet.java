@@ -67,7 +67,7 @@ public class ProductServlet extends HttpServlet {
 			String keyword = request.getParameter("keyword");
 			Set<Product> products = productSB.findByKeyword(keyword);
 			// loi viet
-			request.setAttribute("resultSearch", products);
+			session.setAttribute("resultSearch", products);
 			userPath = "resultSearch";
 		}
 		String url = userPath.trim() + ".jsp";

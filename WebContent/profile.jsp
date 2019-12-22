@@ -128,6 +128,7 @@ input {
 	</div>
 	<div id="fane3" class="tab_content">
 		<!-- Code here  -->
+		<form style="padding-top: 15px" action="<c:url value='changePassword'/>" method="post">
 		<div class="column-layout">
 			<div class="label-column">
 				<label style="font-size:15px">Old password</label>
@@ -141,7 +142,7 @@ input {
 				<label style="font-size:15px">New password</label>
 			</div>
 			<div class="input-column">
-				<input type="password" name="newPassword"></input>
+				<input type="password" name="newpassword"></input>
 			</div>
 		</div>
 		<div class="column-layout">
@@ -149,10 +150,11 @@ input {
 				<label style="font-size:15px">Confirm new password</label>
 			</div>
 			<div class="input-column">
-				<input type="password" name= "CfPassword"></input>
+				<input type="password" name= "cfpassword"></input>
 			</div>
 		</div>
-		<form style="padding-top: 15px">
+			<c:if test="${changePwd == 1 }"><font color=red>Password was changed successfully</font><br></c:if>
+			<c:if test="${changePwd == 2 }"><font color=red>An error occurred while changing the password </font><br></c:if>
 			<input class="button white" type="submit" value="Change password"></input>
 		</form>
 	</div>

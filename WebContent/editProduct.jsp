@@ -210,17 +210,16 @@ fieldset>div {
 						</select>
 					</div>
 				</fieldset>
-                        
                         <div>
-                        	<label for="category">Category:</label>
-                        	<select name="category_id" id="">
-                        		<option value="1">Mac</option>
-                        		<option value="2">iPhone</option>
-                        		<option value="3">iPad</option>
-                        		<option value="4">Accessories</option>
-                        		<option selected="selected" value="<%=selectedProduct.getCategory().getCategoryId()%>"><%=selectedProduct.getCategory().getName()%></option>
-                        	</select>
-                        </div>              
+						<label for="category">Category:</label> <select name="category_id"
+							id="" required>
+							<c:forEach var="category" items="${categories }">
+								<option value="${category.categoryId }">${category.name }</option>
+							</c:forEach>
+							<option selected="selected" value="<%=selectedProduct.getCategory().getCategoryId()%>"><%=selectedProduct.getCategory().getName()%></option>
+						</select>
+						</div>
+                                    
                         <div>
                             <label for="about_you">Description Details: </label>
                             <textarea name="description_detail" id="about_you" rows="10" cols="5"><%=selectedProduct.getDescriptionDetail()%></textarea>

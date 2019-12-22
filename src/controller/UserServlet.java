@@ -24,7 +24,7 @@ import session_bean.OrderedProductSessionBean;
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail", "/addAddress", "/deleteAddress"})
+@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail", "/addAddress", "/deleteAddress", "/changePassword"})
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -116,6 +116,21 @@ public class UserServlet extends HttpServlet {
 			session.setAttribute("addressbook", addressbook);
 
 			userPath = "profile";
+		} else if (userPath.contentEquals("/changePassword")) {
+			String password = request.getParameter("password");
+			String newpassword = request.getParameter("newpassword");
+			String cfpassword = request.getParameter("cfpassword");
+			Customer customer = (Customer) session.getAttribute("customer");
+			int changePwd;
+			if (isValidChangePassword(password, newpassword, cfpassword, customer)) {
+				changePwd = 1;
+				customer.setPassword(newpassword);
+				customerSB.edit(customer);
+			} else {
+				changePwd = 2;
+			}
+			request.setAttribute("changePwd", changePwd);
+			userPath = "profile";
 		}
 		String url = userPath.trim() + ".jsp";
 		try {
@@ -123,6 +138,13 @@ public class UserServlet extends HttpServlet {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	private boolean isValidChangePassword(String pwd, String npwd, String cfpwd, Customer customer) {
+		boolean res = false;
+		if (npwd.contentEquals(cfpwd) && customer.getPassword().contentEquals(pwd)) {
+			res = true;
+		}
+		return res;
 	}
 
 }

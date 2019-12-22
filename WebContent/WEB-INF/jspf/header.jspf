@@ -71,10 +71,10 @@
 				style="color: #FFF">Home</a></li>
 			<li><a href="#">Category</a>
 				<ol>
-					<li><a href="category?1">Mac</a>
-					<li><a href="category?3">iPad</a></li>
-					<li><a href="category?2">iPhone</a></li>
-					<li><a href="category?4">Accessories</a></li>
+				<c:forEach var="category" items="${categories }">
+					<li><a href="category?${category.categoryId }">${category.name }</a>
+				</c:forEach>
+
 				</ol></li>
 			<li><a href="contact.jsp">Contact</a></li>
 		</ol>

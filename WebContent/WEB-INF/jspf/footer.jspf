@@ -30,6 +30,7 @@
 						<li><a href="addProduct.jsp">Add New Product</a></li>
 						<li><a href="orderHistory">Order History</a></li>
 						<li><a href="userProfile">User Management</a></li>
+						<li><a href="categoryAdmin">Category Management</a></li>
 				<%	} else { %>
 						<h3>Customer</h3>
 						<ul class="footer_links">

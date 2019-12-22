@@ -29,6 +29,13 @@ public class Category implements Serializable {
 	@OneToMany(mappedBy="category")
 	private List<Product> products;
 
+	public Category(int categoryId, String image, String name) {
+		super();
+		this.categoryId = categoryId;
+		this.image = image;
+		this.name = name;
+	}
+
 	public Category() {
 	}
 
@@ -77,5 +84,5 @@ public class Category implements Serializable {
 
 		return product;
 	}
-
+	
 }

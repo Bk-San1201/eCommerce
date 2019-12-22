@@ -105,12 +105,22 @@ public class ControllerServlet extends HttpServlet {
 			}
 			// get user input from request
 			String productId = request.getQueryString();
+			int index = productId.indexOf("&");
+			if (index != -1) {
+				productId = productId.substring(0, index);
+			}
 			if (!productId.isEmpty()) {
 				Product product = productSB.find(Integer.parseInt(productId));
 				cart.addItem(product);
 			}
 			String userView = (String) session.getAttribute("view");
-			userPath = String.valueOf(userView);
+			String search = (String) request.getQueryString();
+			if (search.indexOf("=") != -1) {
+				userPath = "resultSearch";
+			} else {
+				userPath = String.valueOf(userView);
+			}
+			
 
 		} else if (userPath.equals("/checkout")) {
 			String login = (String) session.getAttribute("login");

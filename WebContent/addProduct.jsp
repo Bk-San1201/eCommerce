@@ -2,9 +2,11 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <%@page import="entity.ProductDetail"%>
 <%@page import="entity.Product"%>
+<%@page import="java.util.List"%>
 <%
 	session.removeAttribute("selectedProduct");
 	session.removeAttribute("selectedProductDetail");
+
 %>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -217,10 +219,9 @@ fieldset>div{
 					<div>
 						<label for="category">Category:</label> <select name="category_id"
 							id="" required>
-							<option value="1">Mac</option>
-							<option value="2">iPhone</option>
-							<option value="3">iPad</option>
-							<option value="4">Accessories</option>
+							<c:forEach var="category" items="${categories }">
+								<option value="${category.categoryId }">${category.name }</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div>
