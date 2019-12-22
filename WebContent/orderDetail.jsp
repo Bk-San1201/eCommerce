@@ -7,92 +7,85 @@
 <%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Confirmation</title>
-    </head>
-    <body>
-        <div id="container">
-            <div class="one">
-                <div class="heading_bg">
-                    <h2>Order Detail</h2>
-                </div>
-                <p id="confirmationText">
-                    <strong>Succeed</strong>
-                    <br>
-                    Confirmation Number: 
-                    <strong>${orderRecord.confirmationNumber}</strong>
-                    <br>
-                    Thanks for your purchase!
-                </p>
-            </div>
-            <div class="two-third">
-                <div class="heading_bg">
-                    <h3>Order Summary</h3>
-                </div>
-                <table>
-                    <th>Product </th>
-                   <th>Quantity</th>
-                    <th>Price</th>
-                        <c:forEach var="orderedProduct" items="${orderedProducts}"
-                                   varStatus="iter">
-                        <tr>
-                            <td>
-                                ${products[iter.index].name}
-                            </td>
-                            <td>
-                                ${orderedProduct.quantity}
-                            </td>
-                            <td>
-                                ${products[iter.index].price
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Confirmation</title>
+</head>
+<body>
+	<div id="container">
+		<div class="one">
+			<div class="heading_bg">
+				<h2>Order Detail</h2>
+			</div>
+			<p id="confirmationText">
+				<strong>Succeed</strong> <br> Confirmation Number: <strong>${orderRecord.confirmationNumber}</strong>
+				<br> Thanks for your purchase!
+			</p>
+		</div>
+		<div class="two-third">
+			<div class="heading_bg">
+				<h3>Order Summary</h3>
+			</div>
+			<table>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<c:forEach var="orderedProduct" items="${orderedProducts}"
+					varStatus="iter">
+					<tr>
+						<td>${products[iter.index].name}</td>
+						<td>${orderedProduct.quantity}</td>
+						<td>${products[iter.index].price
                                                            * orderedProduct.quantity}
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    <tr>
-                        <td colspan="2"><strong>Surcharge :</strong></td>
-                        <td>
-                            ${initParam.deliveryFee}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><strong>Total :</strong></td>
-                        <td>
-                            ${orderRecord.amount}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><strong>Date Process :</strong>
-                                ${orderRecord.dateCreated}
-                    </tr>
-                </table>
-            </div>
-            <div class="sidebar_right">
-                <div class="heading_bg">
-                    <h3>Delivery Address </h3>
-                </div>
-                <table>
-                    <tr>
-                       <td colspan="3">Name: 
-                            ${customer.name}
-                            <br>Address: 
-                            ${orderRecord.address}
-                            <br>
-                            City: ${orderRecord.cityRegion}
-                            <br>
-                            <hr>
-                            <strong>Email :</strong>
-                            ${customer.email}
-                            <br>
-                            <strong>Phone :</strong>
-                            ${customer.phone}
-                            <br>
-                            <strong>Status</strong>
-                            <c:if test="${orderRecord.status > 0}">Delivered</c:if>
-							<c:if test="${orderRecord.status < 1}">Waiting to Delivery</c:if>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div style="clear:both; height: 40px"></div>
-        </div>
-    </body>
+						</td>
+					</tr>
+				</c:forEach>
+				<tr>
+					<td colspan="2"><strong>Surcharge :</strong></td>
+					<td>${initParam.deliveryFee}</td>
+				</tr>
+				<tr>
+					<td colspan="2"><strong>Total :</strong></td>
+					<td>${orderRecord.amount}</td>
+				</tr>
+				<tr>
+					<td colspan="3"><strong>Date Process :</strong>
+						${orderRecord.dateCreated}
+				</tr>
+			</table>
+		</div>
+		<div class="sidebar_right">
+			<div class="heading_bg">
+				<h3>Delivery Address</h3>
+			</div>
+			<table>
+				<tr>
+					<td colspan="3">Name: ${customer.name} <br>Address:
+						${orderRecord.address} <br> City: ${orderRecord.cityRegion} <br>
+						<hr> <strong>Email :</strong> ${customer.email} <br> <strong>Phone
+							:</strong> ${customer.phone} <br> <strong>Status : </strong> <c:if
+							test="${orderRecord.status == 2 }">
+
+							Delivered
+
+						</c:if> <c:if test="${orderRecord.status == 0}">
+
+							Waiting to Delivery
+
+						</c:if> <c:if test="${orderRecord.status == 1}">
+
+							Shipping
+
+						</c:if> <c:if test="${orderRecord.status == 3}">
+
+							Cancel Order
+
+						</c:if>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both; height: 40px"></div>
+	</div>
+</body>
 </html>

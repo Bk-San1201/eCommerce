@@ -50,17 +50,19 @@ public class ProductServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String userPath = request.getRequestURI().substring(request.getContextPath().length());
 		if (userPath.equals("/deleteProduct")) {
-//			HttpSession session = request.getSession();
+
 			Product selectedProduct = (Product) session.getAttribute("selectedProduct");
 			ProductDetail selectedProductDetail = (ProductDetail) session.getAttribute("selectedProductDetail");
-			session.removeAttribute("selectedProduct");
-			session.removeAttribute("selectedProductDetail");
-			productDetailSB.remove(productDetailSB.find(selectedProduct.getProductId()));
-			productSB.remove(productSB.find(selectedProduct.getProductId()));
-//			productSB.deleteProduct(selectedProduct.getProductId());
-
-			userPath = "index";
-
+			if (isDelete(selectedProduct.getProductId())) {
+				session.removeAttribute("selectedProduct");
+				session.removeAttribute("selectedProductDetail");
+				productDetailSB.remove(productDetailSB.find(selectedProduct.getProductId()));
+				productSB.remove(productSB.find(selectedProduct.getProductId()));
+				userPath = "index";
+			} else {
+				request.setAttribute("deleteProduct", "no");
+				userPath = "product";
+			}
 		} else if (userPath.contentEquals("/search")) {
 			String keyword = request.getParameter("keyword");
 			Set<Product> products = productSB.findByKeyword(keyword);
@@ -223,6 +225,7 @@ public class ProductServlet extends HttpServlet {
 			pd.setInformation(description_detail);
 			pd.setQuantity(quantity);
 			pd.setInformation(techniqueDetail);
+			pd.setSale(selectedProductDetail.getSale());
 			productDetailSB.remove(selectedProductDetail);
 			productSB.remove(selectedProduct);
 			productSB.create(p);
@@ -232,6 +235,9 @@ public class ProductServlet extends HttpServlet {
 			userPath = "product";
 		}
 		String url = userPath.trim() + ".jsp";
+		List<Product> list = productSB.findTop5Sale();
+		request.getServletContext().setAttribute("newProducts", productSB.findTop5Sale());
+		request.getServletContext().setAttribute("categories", categorySB.findAll());
 		try {
 			request.getRequestDispatcher(url).forward(request, response);
 		} catch (Exception ex) {
@@ -239,6 +245,26 @@ public class ProductServlet extends HttpServlet {
 		}
 //		HttpSession session = request.getSession();
 
+	}
+	
+	private boolean isDelete(int productId) {
+		boolean res = true;
+		Product product = productSB.find(productId);
+		ProductDetail productDetail = productDetailSB.find(productId);
+		
+		if (productDetail.getQuantity() != 0) {
+			res = false;
+		}
+		
+		List<Product> notDelete = productSB.findProductWaitingDelivery();
+		for (Product p: notDelete) {
+			if (productId == p.getProductId()) {
+				res = false;
+				break;
+			}
+		}
+		
+		return res;
 	}
 
 }

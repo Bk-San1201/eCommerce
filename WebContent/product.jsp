@@ -4,6 +4,8 @@
 	session.setAttribute("view", "/product");
 	Product selectedProduct = (Product) session.getAttribute("selectedProduct");
 	ProductDetail selectedProductDetail = (ProductDetail) session.getAttribute("selectedProductDetail");
+	String name = (String) request.getSession().getAttribute("login");
+	String deleteProduct = (String) request.getAttribute("deleteProduct");
 %>
 <div id="container">
 	<div class="one">
@@ -58,16 +60,21 @@
 			</p>
 			<h3>Status</h3>
 			<c:if test="${selectedProductDetail.getQuantity() > 0}"><p>In Stock</p></c:if>
-			<c:if test="${selectedProductDetail.getQuantity() < 0}"><p>Out of Stock</p></c:if>
+			<%	
+					if (name != null && name.equals("admin")) { %>
+						<h3>Quantity</h3>
+						<p>${selectedProductDetail.quantity }</p>
+				<% 	} %>
+			<c:if test="${selectedProductDetail.getQuantity() < 1}"><p>Out of Stock</p></c:if>
 			
 			<p style="text-align: left; margin-right: 16px">
-				<a href="<c:url value='addToCart?${selectedProduct.getProductId()}'/>" class="button">Add to cart</a>
-				<%
-					String name = (String) request.getSession().getAttribute("login");
-					if (name.equals("admin")) { %>
+				<c:if test="${selectedProductDetail.getQuantity() > 0}"><a href="<c:url value='addToCart?${selectedProduct.getProductId()}'/>" class="button">Add to cart</a></c:if>	
+				<%	
+					if (name != null && name.equals("admin")) { %>
 						<a href="editProduct.jsp" class="button">Edit Product</a>
 						<a href="deleteProduct" class="button">Delete Product</a>
-				<% 	} %>	
+				<% 	} %>
+				<c:if test="${!empty deleteProduct}"><font color=red>Sorry, This product can't delete!</font></c:if>
 				
 			</p>
 		</div>

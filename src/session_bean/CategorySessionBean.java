@@ -5,12 +5,14 @@
  */
 package session_bean;
 
-import entity.Category;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+import entity.Category;
 
 /**
  *
@@ -28,5 +30,9 @@ public class CategorySessionBean extends AbstractSessionBean<Category>{
 
     public CategorySessionBean() {
         super(Category.class);
+    }
+    public List<Category> findAll() {
+    	Query q = getEntityManager().createNamedQuery("Category.findAll");
+		return q.getResultList();
     }
 }

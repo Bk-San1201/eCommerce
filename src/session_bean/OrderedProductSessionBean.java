@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import entity.Category;
 import entity.OrderedProduct;
 
 /**
@@ -30,5 +31,9 @@ public class OrderedProductSessionBean extends AbstractSessionBean<OrderedProduc
 	public List<OrderedProduct> findByOrderId(Object id) {
         return em.createNamedQuery("OrderedProduct.findByOrderId").setParameter("orderId",
                 id).getResultList();
+    }
+	public List<OrderedProduct> findAll() {
+    	Query q = getEntityManager().createNamedQuery("OrderProduct.findAll");
+		return q.getResultList();
     }
 }

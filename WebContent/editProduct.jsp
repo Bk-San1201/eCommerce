@@ -6,13 +6,12 @@
 	//session.setAttribute("view", "/product ");
 	Product selectedProduct = (Product) session.getAttribute("selectedProduct");
 	ProductDetail selectedProductDetail = (ProductDetail) session.getAttribute("selectedProductDetail");
-
 %>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <title>Edit Profile</title>
+        <title>Edit Product</title>
 
         <!-- CSS -->
         <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css" />
@@ -69,7 +68,7 @@
 	
 						<div>
 						<label for="name_first">Quantity: </label> <input type="text"
-							name="quantity" id="name_first" required />
+							name="quantity" id="name_first" value="<%=selectedProductDetail.getQuantity() %>" required />
 						</div>
 					
                         <div>

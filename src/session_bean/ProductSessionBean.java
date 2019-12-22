@@ -1,5 +1,6 @@
 package session_bean;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import javax.persistence.Query;
 
 import entity.Category;
 import entity.Product;
+import entity.ProductDetail;
 
 /**
  *
@@ -23,6 +25,8 @@ public class ProductSessionBean extends AbstractSessionBean<Product> {
 	private EntityManager em;
 	@EJB
 	private CategorySessionBean categorySB;
+	@EJB 
+	private ProductDetailSessionBean productDetailSB;
 	public EntityManager getEntityManager() {
 		return em;
 	}
@@ -48,6 +52,10 @@ public class ProductSessionBean extends AbstractSessionBean<Product> {
 //		c.addProduct(p);
 		categorySB.getEntityManager().refresh(c);
 	}
+	public List<Product> findAll() {
+    	Query q = getEntityManager().createNamedQuery("Product.findAll");
+		return q.getResultList();
+    }
 	public Set<Product> findByKeyword(String keyword) {
 		Set<Product> products = new HashSet<Product>();
 		
@@ -75,4 +83,23 @@ public class ProductSessionBean extends AbstractSessionBean<Product> {
 		
 		return products;
 	}
+	public List<Product> findTop5Sale() {
+		List<ProductDetail> productDetails = productDetailSB.findTop5Sale();
+		List<Product> products = new ArrayList<Product>();
+		int i = 0;
+		for (ProductDetail pd: productDetails) {
+			products.add(this.find(pd.getProductId()));
+			i += 1;
+			if (i == 5) {
+				break;
+			}
+		}
+		return products;
+	}
+	
+	public List<Product> findProductWaitingDelivery() {
+		Query q = em.createNativeQuery("select product.* from customer_order, product, ordered_product where (product.product_id = ordered_product.product_id) and (customer_order.order_id = ordered_product.order_id);", Product.class);		
+		return q.getResultList();
+	}
+	
 }
