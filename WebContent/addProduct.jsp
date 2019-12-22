@@ -104,7 +104,7 @@ fieldset>div{
 						<!-- Month -->
 						<div>
 							<label for="dob_month">Month</label> <select name="month"
-								id="dob_month"requiredField">>
+								id="dob_month" requiredField">>
 								<option value="">- Month -</option>
 								<option value="1">1</option>
 								<option value="2">2</option>

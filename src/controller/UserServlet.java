@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Address;
 import entity.Customer;
 import entity.CustomerOrder;
+import session_bean.AddressSessionBean;
 import session_bean.CustomerOrderSessionBean;
 import session_bean.CustomerSessionBean;
 import session_bean.OrderManager;
@@ -21,7 +24,7 @@ import session_bean.OrderedProductSessionBean;
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail"})
+@WebServlet(name="/UserServlet", urlPatterns = {"/editProfile", "/orderDetail", "/addAddress", "/deleteAddress"})
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -32,6 +35,8 @@ public class UserServlet extends HttpServlet {
     private OrderedProductSessionBean orderedProductSB;
     @EJB
     private OrderManager orderManager;
+    @EJB
+    private AddressSessionBean addressSB;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -56,6 +61,15 @@ public class UserServlet extends HttpServlet {
 			request.setAttribute("orderRecord", orderMap.get("orderRecord"));
 			request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
 			userPath = "orderDetail";
+		} else if (userPath.equals("/deleteAddress")) {
+			int addressId = Integer.parseInt(request.getParameter("addressId"));
+			addressSB.remove(addressSB.find(addressId));
+//			set again
+			Customer customer = (Customer) session.getAttribute("customer");
+			List<Address> addressbook = addressSB.findByCustomer(customer);
+			session.setAttribute("addressbook", addressbook);
+
+			userPath = "profile";
 		}
 		String url = userPath.trim() + ".jsp";
 		try {
@@ -83,6 +97,24 @@ public class UserServlet extends HttpServlet {
 			customer.setCcNumber(request.getParameter("ccNumber"));
 			
 			customerSB.edit(customer);
+			userPath = "profile";
+		} else if (userPath.contentEquals("/addAddress")) {
+			Customer customer = (Customer) session.getAttribute("customer");
+			List<Address> addressbook = addressSB.findAll();
+			int size = addressbook.size();
+			int addressId = addressbook.get(size - 1).getAddressId() + 1;
+			Address address = new Address();
+			address.setAddressId(addressId);
+			address.setPhone(request.getParameter("phone"));
+			address.setAddress(request.getParameter("address"));
+			address.setCityRegion(request.getParameter("cityregion"));
+			address.setCustomer(customerSB.find(customer.getCustomerId()));
+			
+			addressSB.create(address);
+			// set again
+			addressbook = addressSB.findByCustomer(customer);
+			session.setAttribute("addressbook", addressbook);
+
 			userPath = "profile";
 		}
 		String url = userPath.trim() + ".jsp";

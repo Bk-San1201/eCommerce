@@ -2,15 +2,8 @@ package session_bean;
 
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import javax.persistence.Query;
 
 /**
  *
@@ -47,11 +40,7 @@ public abstract class AbstractSessionBean<T> {
 		return getEntityManager().find(entityClass, id);
 	}
 
-	public List<T> findAll() {
-		javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-		cq.select(cq.from(entityClass));
-		return getEntityManager().createQuery(cq).getResultList();
-	}
+	public abstract List<T> findAll();
 
 	public List<T> findRange(int[] range) {
 		javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();

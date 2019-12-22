@@ -72,13 +72,6 @@
 			<li><a href="#">Category</a>
 				<ol>
 					<li><a href="category?1">Mac</a>
-						<ol>
-							<li><a href="#">iMac</a></li>
-							<li><a href="#">Mac Pro</a></li>
-							<li><a href="#">Macbook Air</a></li>
-							<li><a href="#">Macbook Pro</a></li>
-						</ol></li>
-
 					<li><a href="category?3">iPad</a></li>
 					<li><a href="category?2">iPhone</a></li>
 					<li><a href="category?4">Accessories</a></li>

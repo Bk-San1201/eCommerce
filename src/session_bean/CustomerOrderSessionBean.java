@@ -6,7 +6,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import entity.Category;
 import entity.Customer;
 import entity.CustomerOrder;
 
@@ -47,4 +49,8 @@ public class CustomerOrderSessionBean extends AbstractSessionBean<CustomerOrder>
 //		Customer c = customerSB.find(customerOrder.getCustomer().getCustomerId());
 //		customerSB.getEntityManager().refresh(c);
 	}
+	public List<CustomerOrder> findAll() {
+    	Query q = getEntityManager().createNamedQuery("CustomerOrder.findAll");
+		return q.getResultList();
+    }
 }

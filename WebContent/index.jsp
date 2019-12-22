@@ -20,7 +20,8 @@
     </script>
 
 <c:set var='view' value='/index' scope='session' />
-
+<%@page import="entity.*"%>
+<%@page import="java.util.List"%>
 <div id="container">
 
 

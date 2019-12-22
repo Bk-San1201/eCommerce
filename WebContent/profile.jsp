@@ -3,15 +3,17 @@
 <style>
 label {
 	font-family: QuickSandBook;
-	font-size:.5cm;
+	font-size: .5cm;
 }
-input { 
-	font-family: "QuicksandBook", Arial, sans-serif; 
-	font-style:bold;
-	font-size:.42cm;
+
+input {
+	font-family: "QuicksandBook", Arial, sans-serif;
+	font-style: bold;
+	font-size: .42cm;
 	/* width: 100%; */
 }
 </style>
+
 <!-- JS Files -->
 <script src="js/jquery.min.js"></script>
 <script src="js/custom.js"></script>
@@ -38,6 +40,7 @@ input {
 	session.setAttribute("view", "/product");
 	Customer customer = (Customer) session.getAttribute("customer");
 	List<CustomerOrder> customerOrderList = (List<CustomerOrder>) session.getAttribute("customerOrderList");
+	List<Address> addressbook = (List<Address>) session.getAttribute("addressbook");
 %>
 
 
@@ -51,7 +54,8 @@ input {
     <ul id="tabify_menu" class="menu_tab" style="margin: 0; font-family: QuickSandBook; font-size: 15px">
       <li class="active"><a href="#fane1">Profile</a></li>
       <li><a href="#fane2">Order lists</a></li>
-      <li><a href="#fane3">Change password</a></li>
+	  <li><a href="#fane3">Change password</a></li>
+	  <li><a href="#fane4">Address Book</a></li>
     </ul>
     <div id="fane1" class="tab_content">
 		<form action="<c:url value='editProfile'/>" id="contact_form" method="post">
@@ -152,8 +156,52 @@ input {
 			<input class="button white" type="submit" value="Change password"></input>
 		</form>
 	</div>
-    <!--END form ID contact_form -->
-  </div>
-  <div style="clear:both; height: 40px"></div>
+	<div id="fane4" class="tab_content">
+		<table border="0" style="font-size: 13px">
+			<th>Address</th>
+			<th>Phone Number</th>
+			<th>City Region</th>
+			<th>Remove</th>
+			<c:forEach var="address" items="<%=addressbook%>">
+				<tr>
+					<td>${address.address }</td>
+					<td>${address.phone}</td>
+					<td>${address.cityRegion}</td>
+					<td>
+						<form action="<c:url value='deleteAddress'/>" method="get">
+							<input type="hidden" name="addressId" value="${address.addressId}" /> 
+							<fieldset>
+								<input name="Mysubmitted" id="Mysubmitted" value="Remove"
+									class="button white" type="submit" style="font-size: 13px;">
+							</fieldset>
+						</form>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<b>ADD ADDRESS: </b>
+		<form action="<c:url value='addAddress'/>" method="post">
+			<fieldset>
+				<label>Phone Number <span class="required">*</span></label> <input
+					type="text" name="phone" id="myPhone" required
+					class="text requiredField subject" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>Address <span class="required">*</span></label> <input
+					type="text" name="address" id="myAddress" required
+					class="text requiredField subject" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<label>City Region <span class="required">*</span></label> <input
+					type="text" name="cityregion" id="myAddress" required
+					class="text requiredField subject" style="width: 50%">
+			</fieldset>
+			<fieldset>
+				<input name="Mysubmitted" id="Mysubmitted" value="Add Address"
+					class="button white" type="submit" style="font-size: 13px;">
+			</fieldset>
+		</form>
+	</div>
+	<div style="clear: both; height: 40px"></div>
 </div>
 <!-- close container -->

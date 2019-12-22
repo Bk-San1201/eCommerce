@@ -12,6 +12,8 @@ import entity.CustomerOrder;
 import entity.OrderedProduct;
 import entity.OrderedProductPK;
 import entity.Product;
+import entity.ProductDetail;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,6 +47,8 @@ public class OrderManager {
     public CustomerOrderSessionBean customerOrderSB;
     @EJB
     public ProductSessionBean productSB;
+    @EJB
+    public ProductDetailSessionBean productDetailSB;
     @EJB
     public OrderedProductSessionBean orderedProductSB;
     @EJB
@@ -135,4 +139,21 @@ public class OrderManager {
         orderMap.put("products", products);
         return orderMap;
     }
+    public void updateQuantity(int orderId) {
+		CustomerOrder customerOrder = customerOrderSB.find(orderId);
+		List<OrderedProduct> orderedProducts = orderedProductSB.findByOrderId(orderId);
+		for (OrderedProduct orderedProduct : orderedProducts) {
+			int quantity = orderedProduct.getQuantity();
+			ProductDetail product = productDetailSB.find(orderedProduct.getProduct().getProductId());
+			int tmp = product.getQuantity();
+			if (tmp - quantity <= 0) {
+				tmp = 0;
+			} else {
+				tmp -= quantity;
+			}
+			product.setQuantity(tmp);
+			product.setSale(product.getSale() + quantity);
+			productDetailSB.edit(product);
+		}
+	}
 }
