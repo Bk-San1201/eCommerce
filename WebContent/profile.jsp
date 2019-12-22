@@ -29,6 +29,7 @@ input {
 <script src="js/swfobject/swfobject.js"></script>
 <!-- FancyBox -->
 <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css" media="all">
+<link rel="stylesheet" type="text/css" media="screen" href="css/column-layout.css">
 <script src="js/fancybox/jquery.fancybox-1.2.1.js"></script>
 </head>
 <%@page import="entity.*"%>
@@ -47,7 +48,7 @@ input {
   </div>
   <div style="width:70%; float:right; position:relative; padding: 0px 0px;/* border:1px solid black; */">
   <!-- <div class="one-half-last"> -->
-    <ul id="tabify_menu" class="menu_tab" style="margin: 0;">
+    <ul id="tabify_menu" class="menu_tab" style="margin: 0; font-family: QuickSandBook; font-size: 15px">
       <li class="active"><a href="#fane1">Profile</a></li>
       <li><a href="#fane2">Order lists</a></li>
       <li><a href="#fane3">Change password</a></li>
@@ -123,6 +124,33 @@ input {
 	</div>
 	<div id="fane3" class="tab_content">
 		<!-- Code here  -->
+		<div class="column-layout">
+			<div class="label-column">
+				<label style="font-size:15px">Old password</label>
+			</div>
+			<div class="input-column">
+				<input type="password" name="password"></input>
+			</div>
+		</div>
+		<div class="column-layout">
+			<div class="label-column">
+				<label style="font-size:15px">New password</label>
+			</div>
+			<div class="input-column">
+				<input type="password" name="newPassword"></input>
+			</div>
+		</div>
+		<div class="column-layout">
+			<div class="label-column">
+				<label style="font-size:15px">Confirm new password</label>
+			</div>
+			<div class="input-column">
+				<input type="password" name= "CfPassword"></input>
+			</div>
+		</div>
+		<form style="padding-top: 15px">
+			<input class="button white" type="submit" value="Change password"></input>
+		</form>
 	</div>
     <!--END form ID contact_form -->
   </div>

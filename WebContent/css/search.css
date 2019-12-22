@@ -1,9 +1,8 @@
+@import url("css/style.css");
 
 input,
 button {
-  font-family: sans-serif;
-  font-style: bold;
-  font-size: 20px;
+  font-family: "QuickSandBook", sans-serif;
 }
 
 .s130 {
@@ -12,8 +11,7 @@ button {
   display: flex;
   -ms-flex-pack: center;
   justify-content: center;
-  font-family: sans-serif;
-  font-style: bold;
+  font-family: "QuickSandBook", sans-serif;
   padding: 0px;
 }
 
@@ -111,7 +109,7 @@ button {
   height: 100%;
   width: 100%;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 16px; 
   color: #fff;
   border: 0;
   cursor: pointer;

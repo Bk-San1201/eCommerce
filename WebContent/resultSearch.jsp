@@ -13,7 +13,7 @@ button{
 <body>
 <div id="container">
 	<h1>Search Result</h1>
-	<div class="column-layout">
+	<div class="column-layout" style="font-weight: 900; color: red; text-align: center">
 		<div class="first-column">
 			Name
 		</div>
@@ -49,14 +49,18 @@ button{
 			<div class="sixth-column">${product.getLastUpdate()}</div>
 			<div class="seventh-column">
 				<div style="padding: 10px 0px 10px 0px">
-					<button class="button-white" style="color:black" type="submit" action="editProduct" method="post">
+				<form action="editProduct" method="post">
+					<button class="button-white" style="color:black" type="submit">
 						Edit
 					</button>
+				</form>
 				</div>
 				<div style="padding: 10px 0px 10px 0px">
-					<button class="button-white" style="color: red" type="submit" action="addProduct" method="post">
+				<form action="addProduct" method="post">
+					<button class="button-white" style="color: red" type="submit">
 						Delete
 					</button>
+				</form>
 				</div>
 			</div>
 		</div>

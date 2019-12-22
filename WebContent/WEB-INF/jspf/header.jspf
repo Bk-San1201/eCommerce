@@ -54,7 +54,7 @@
 								placeholder="What are you looking for?" />
 						</div>
 						<div class="input-field second-wrap">
-							<button class="btn-search" type="submit" action="search" method="get">SEARCH</button>
+							<button class="btn-search" type="submit">SEARCH</button>
 						</div>
 					</div>
 <!-- 					<span class="info">ex. Game, Music, Video, Photography</span> -->
